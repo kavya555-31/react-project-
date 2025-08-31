@@ -1,0 +1,55 @@
+
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import "../App.css";
+
+function LandingPage() {
+  const [user, setUser] = useState(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const loggedInUser = localStorage.getItem("loggedInUser");
+    setUser(loggedInUser);
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("loggedInUser");
+    setUser(null);
+    alert("Logged out successfully!");
+    navigate("/");
+  };
+
+  return (
+    <div className="landing">
+      <header>
+        <h1>Personal Expense Tracker</h1>
+        <p>Track your expenses, manage your budget, and save more!</p>
+
+        {!user ? (
+          <div>
+            <Link to="/login" className="btn">Login</Link>
+            <Link to="/signup" className="btn">Signup</Link>
+          </div>
+        ) : (
+          <div>
+            <Link to="/tracker" className="btn">Get Started</Link>
+            <button onClick={handleLogout} className="btn">Logout</button>
+          </div>
+        )}
+      </header>
+
+      <section>
+        <h2>Features</h2>
+        <div className="features">
+          <div className="card"><h3>Add Expenses</h3><p>Record your daily spending easily with categories and notes.</p></div>
+          <div className="card"><h3>View Reports</h3><p>Visualize your spending with charts and summaries.</p></div>
+          <div className="card"><h3>Set Budgets</h3><p>Stay on track by setting monthly or weekly budgets.</p></div>
+        </div>
+      </section>
+    </div>
+  );
+}
+
+export default LandingPage;
+
+
